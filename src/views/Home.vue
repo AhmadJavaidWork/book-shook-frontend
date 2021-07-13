@@ -32,6 +32,10 @@ export default {
           id
           name
           picture
+          author {
+            id
+            name
+          }
         }
       }
     `,
