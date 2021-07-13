@@ -1,9 +1,9 @@
 <template>
-  <v-card outlined tile elevation="5" class="book-card">
+  <v-card outlined tile elevation="5" class="author-card">
     <v-img
       :aspect-ratio="1 / 1"
-      :lazy-src="book.picture"
-      :src="book.picture"
+      :lazy-src="author.picture"
+      :src="author.picture"
       contain
     >
       <template v-slot:placeholder>
@@ -16,22 +16,20 @@
       </template>
     </v-img>
     <v-card-text>
-      {{ book.name }}
-      <br />
-      ~ {{ book.author.name }}
+      {{ author.name }}
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: 'Book',
-  props: ['book'],
+  name: 'Author',
+  props: ['author'],
 };
 </script>
 
 <style scoped>
-.book-card {
+.author-card {
   max-width: 300px;
 }
 </style>
