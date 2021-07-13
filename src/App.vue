@@ -24,4 +24,7 @@ export default {
 .app {
   background-color: #eeeeee;
 }
+.container {
+  margin: 0 auto;
+}
 </style>

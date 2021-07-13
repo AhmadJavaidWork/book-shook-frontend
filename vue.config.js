@@ -2,7 +2,7 @@ const path = require('path');
 module.exports = {
   transpileDependencies: ['vuetify'],
   // The basic URL when deploying the application package is the same as the output.publicPath of webpack itself
-  publicPath: './',
+  publicPath: '/',
   // Output file directory
   outputDir: 'dist',
   // Whether eslint-loader checks when saving

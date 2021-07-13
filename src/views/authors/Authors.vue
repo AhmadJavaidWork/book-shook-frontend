@@ -45,7 +45,7 @@
         xl="4"
         class="mx-auto mb-5"
       >
-        <AuthorCard :author="author" />
+        <AuthorCard :author="author" @click="selectAuthor(author.id)" />
       </v-col>
     </v-row>
   </div>
@@ -120,13 +120,9 @@ export default {
     changeLimit(limit) {
       this.perPage = limit;
     },
+    selectAuthor(id) {
+      this.$router.push({ name: 'Author', params: { id } });
+    },
   },
 };
 </script>
-
-<style scoped>
-.container {
-  width: 90%;
-  margin: 0 auto;
-}
-</style>

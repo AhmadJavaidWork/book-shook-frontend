@@ -1,6 +1,7 @@
 import Home from '@/views/Home';
 import Books from '@/views/books/Books';
 import Authors from '@/views/authors/Authors';
+import Author from '@/views/authors/Author';
 
 const routes = [
   {
@@ -17,6 +18,12 @@ const routes = [
     path: '/authors',
     name: 'Authors',
     component: Authors,
+  },
+  {
+    path: '/author/:id',
+    name: 'Author',
+    component: Author,
+    props: true,
   },
 ];
 

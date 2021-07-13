@@ -1,5 +1,11 @@
 <template>
-  <v-card outlined tile elevation="5" class="author-card">
+  <v-card
+    outlined
+    tile
+    elevation="5"
+    class="author-card"
+    @click="$emit('click')"
+  >
     <v-img
       :aspect-ratio="1 / 1"
       :lazy-src="author.picture"
