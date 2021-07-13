@@ -1,6 +1,6 @@
 import Home from '@/views/Home';
-import Books from '@/views/Books';
-import Authors from '@/views/Authors';
+import Books from '@/views/books/Books';
+import Authors from '@/views/authors/Authors';
 
 const routes = [
   {

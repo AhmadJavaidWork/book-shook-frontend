@@ -45,7 +45,7 @@
         xl="4"
         class="mx-auto mb-5"
       >
-        <Author :author="author" />
+        <AuthorCard :author="author" />
       </v-col>
     </v-row>
   </div>
@@ -53,7 +53,7 @@
 
 <script>
 import gql from 'graphql-tag';
-import Author from '@/components/Author';
+import AuthorCard from '@/components/authors/AuthorCard';
 import {
   totalVisible,
   pageLimits,
@@ -64,7 +64,7 @@ import {
 export default {
   name: 'Home',
   components: {
-    Author,
+    AuthorCard,
   },
   apollo: {
     authors: {

@@ -45,7 +45,7 @@
         xl="4"
         class="mx-auto mb-5"
       >
-        <Book :book="book" />
+        <BookCard :book="book" />
       </v-col>
     </v-row>
   </div>
@@ -53,7 +53,7 @@
 
 <script>
 import gql from 'graphql-tag';
-import Book from '@/components/Book';
+import BookCard from '@/components/books/BookCard';
 import {
   totalVisible,
   pageLimits,
@@ -64,7 +64,7 @@ import {
 export default {
   name: 'Home',
   components: {
-    Book,
+    BookCard,
   },
   apollo: {
     books: {
