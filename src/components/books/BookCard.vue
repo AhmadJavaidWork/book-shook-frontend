@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined tile elevation="5" class="book-card">
+  <v-card outlined tile elevation="5" class="book-card mx-auto">
     <v-img
       :aspect-ratio="1 / 1"
       :lazy-src="book.picture"
@@ -18,7 +18,7 @@
     <v-card-text>
       {{ book.name }}
       <br />
-      ~ {{ book.author.name }}
+      ~ {{ author.name }}
     </v-card-text>
   </v-card>
 </template>
@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'BookCard',
-  props: ['book'],
+  props: ['book', 'author'],
 };
 </script>
 

@@ -1,51 +1,70 @@
 <template>
   <div class="container mt-5">
-    <div class="text-center d-flex justify-end mb-5">
-      <v-pagination
-        v-model="currentPage"
-        :length="books.pagination.lastPage"
-        :total-visible="totalVisible"
-        prev-icon="mdi-menu-left"
-        next-icon="mdi-menu-right"
-        circle
-      ></v-pagination>
-      <div>
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-bind="attrs"
-              v-on="on"
-              color="white"
-              height="34px"
-              class="mt-1 text-capitalize"
-            >
-              per page {{ perPage }}
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(pageLimit, index) in pageLimits"
-              :key="index"
-              @click="changeLimit(pageLimit.text)"
-              :disabled="pageLimit.disabled"
-            >
-              <v-list-item-title>{{ pageLimit.text }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>
-    </div>
+    <v-row no-gutters class="mb-5">
+      <v-col
+        :class="classes.paginationClasses"
+        cols="12"
+        sm="10"
+        md="10"
+        lg="10"
+        xl="10"
+      >
+        <v-pagination
+          v-model="currentPage"
+          :length="books.pagination.lastPage"
+          :total-visible="totalVisible"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+          circle
+        ></v-pagination>
+      </v-col>
+      <v-col
+        :class="classes.perPageClasses"
+        cols="12"
+        sm="2"
+        md="2"
+        lg="2"
+        xl="2"
+      >
+        <div>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                v-bind="attrs"
+                v-on="on"
+                color="white"
+                height="34px"
+                class="mt-1 text-capitalize"
+              >
+                per page {{ perPage }}
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(pageLimit, index) in pageLimits"
+                :key="index"
+                @click="changeLimit(pageLimit.text)"
+                :disabled="pageLimit.disabled"
+              >
+                <v-list-item-title>{{ pageLimit.text }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+      </v-col>
+    </v-row>
     <v-row no-gutters>
       <v-col
         v-for="book in books.data"
         :key="book.id"
-        sm="12"
+        cols="12"
+        sm="6"
         md="6"
         lg="4"
-        xl="4"
+        xl="3"
         class="mx-auto mb-5"
       >
-        <BookCard :book="book" />
+        <BookCard :book="book" :author="book.author" />
       </v-col>
     </v-row>
   </div>
@@ -60,6 +79,10 @@ import {
   defaultPerPage,
   firstPage,
 } from '@/constants/pagination';
+import {
+  paginationClasses,
+  perPageClasses,
+} from '@/constants/classes/booksPage';
 
 export default {
   name: 'Home',
@@ -118,6 +141,7 @@ export default {
       totalVisible,
       perPage: defaultPerPage,
       currentPage: firstPage,
+      classes: { paginationClasses, perPageClasses },
     };
   },
   methods: {
