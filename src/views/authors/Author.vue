@@ -195,7 +195,6 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.params.id;
     if (!this.id) {
       this.$router.push({ name: 'Authors' });
     }

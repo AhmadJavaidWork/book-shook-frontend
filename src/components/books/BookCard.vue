@@ -1,5 +1,11 @@
 <template>
-  <v-card outlined tile elevation="5" class="book-card mx-auto">
+  <v-card
+    outlined
+    tile
+    elevation="5"
+    class="book-card mx-auto"
+    @click="$emit('click')"
+  >
     <v-img
       :aspect-ratio="1 / 1"
       :lazy-src="book.picture"

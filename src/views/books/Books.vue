@@ -64,7 +64,11 @@
         xl="3"
         class="mx-auto mb-5"
       >
-        <BookCard :book="book" :author="book.author" />
+        <BookCard
+          :book="book"
+          :author="book.author"
+          @click="selectBook(book.id)"
+        />
       </v-col>
     </v-row>
   </div>
@@ -147,6 +151,9 @@ export default {
   methods: {
     changeLimit(limit) {
       this.perPage = limit;
+    },
+    selectBook(id) {
+      this.$router.push({ name: 'Book', params: { id } });
     },
   },
 };
