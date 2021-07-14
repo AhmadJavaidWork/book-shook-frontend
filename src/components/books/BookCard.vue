@@ -15,11 +15,18 @@
         </v-row>
       </template>
     </v-img>
-    <v-card-text>
-      {{ book.name }}
-      <br />
-      ~ {{ author.name }}
-    </v-card-text>
+    <p class="ml-5 mt-2 mb-0 text-body-1">{{ book.name }}</p>
+    <p class="ml-5 mb-2 text-caption">
+      <a
+        class="text-decoration-none"
+        @click="
+          $router
+            .push({ name: 'Author', params: { id: author.id } })
+            .catch((err) => {})
+        "
+        >~ {{ author.name }}</a
+      >
+    </p>
   </v-card>
 </template>
 
