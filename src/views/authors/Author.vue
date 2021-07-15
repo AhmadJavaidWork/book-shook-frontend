@@ -28,7 +28,7 @@
         <p>{{ author.bio }}</p>
       </v-col>
     </v-row>
-    <v-row no-gutters class="mt-10">
+    <v-row v-if="hasBooks" no-gutters class="mt-10">
       <v-col cols="12" sm="3" md="3" lg="3" xl="2">
         <p :class="classes.bookTextClasses">Books</p>
       </v-col>
@@ -40,59 +40,15 @@
         lg="9"
         xl="10"
       >
-        <v-row no-gutters class="mb-5">
-          <v-col
-            :class="classes.paginationInnerClasses"
-            cols="12"
-            sm="10"
-            md="10"
-            lg="10"
-            xl="10"
-          >
-            <v-pagination
-              v-model="currentPage"
-              :length="author.books.pagination.lastPage"
-              :total-visible="totalVisible"
-              prev-icon="mdi-menu-left"
-              next-icon="mdi-menu-right"
-              circle
-            ></v-pagination>
-          </v-col>
-          <v-col
-            :class="classes.paginationPerPageClasses"
-            cols="12"
-            sm="2"
-            md="2"
-            lg="2"
-            xl="2"
-          >
-            <div>
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    color="white"
-                    height="34px"
-                    class="mt-1 text-capitalize"
-                  >
-                    per page {{ perPage }}
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(pageLimit, index) in pageLimits"
-                    :key="index"
-                    @click="changeLimit(pageLimit.text)"
-                    :disabled="pageLimit.disabled"
-                  >
-                    <v-list-item-title>{{ pageLimit.text }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
-          </v-col>
-        </v-row>
+        <Pagination
+          v-if="!$apollo.loading"
+          :lastPage="lastPage"
+          :currentPage="currentPage"
+          :perPage="perPage"
+          :total="total"
+          @changeLimit="changeLimit"
+          @changePage="changePage"
+        />
       </v-col>
     </v-row>
     <v-row no-gutters class="mt-10">
@@ -114,25 +70,20 @@
 
 <script>
 import gql from 'graphql-tag';
+import Pagination from '@/components/app/Pagination';
 import BookCard from '@/components/books/BookCard';
-import {
-  totalVisible,
-  pageLimits,
-  defaultPerPage,
-  firstPage,
-} from '@/constants/pagination';
+import { defaultPerPage, firstPage } from '@/constants/pagination';
 import {
   bioClasses,
   bookTextClasses,
   paginationOuterClasses,
-  paginationInnerClasses,
-  paginationPerPageClasses,
 } from '@/constants/classes/authorPage';
 
 export default {
   name: 'Author',
   props: ['id'],
   components: {
+    Pagination,
     BookCard,
   },
   apollo: {
@@ -172,25 +123,36 @@ export default {
       update: (data) => data.author,
     },
   },
+  computed: {
+    hasBooks() {
+      if (this.author.books.pagination.total === 0) return false;
+      return true;
+    },
+  },
+  watch: {
+    author() {
+      if (this.author.books.pagination.lastPage) {
+        this.lastPage = this.author.books.pagination.lastPage;
+        this.total = this.author.books.pagination.total;
+      }
+    },
+  },
   data() {
     return {
       lastPage: null,
+      total: 0,
       author: {
         books: {
           data: [],
           pagination: {},
         },
       },
-      pageLimits,
-      totalVisible,
       perPage: defaultPerPage,
       currentPage: firstPage,
       classes: {
         bioClasses,
         bookTextClasses,
         paginationOuterClasses,
-        paginationInnerClasses,
-        paginationPerPageClasses,
       },
     };
   },
@@ -202,6 +164,9 @@ export default {
   methods: {
     changeLimit(limit) {
       this.perPage = limit;
+    },
+    changePage(pageNumber) {
+      this.currentPage = pageNumber;
     },
   },
 };

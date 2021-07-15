@@ -1,40 +1,14 @@
 <template>
   <div class="container mt-5">
-    <div class="text-center d-flex justify-end mb-5">
-      <v-pagination
-        v-model="currentPage"
-        :length="authors.pagination.lastPage"
-        :total-visible="totalVisible"
-        prev-icon="mdi-menu-left"
-        next-icon="mdi-menu-right"
-        circle
-      ></v-pagination>
-      <div>
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-bind="attrs"
-              v-on="on"
-              color="white"
-              height="34px"
-              class="mt-1 text-capitalize"
-            >
-              per page {{ perPage }}
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(pageLimit, index) in pageLimits"
-              :key="index"
-              @click="changeLimit(pageLimit.text)"
-              :disabled="pageLimit.disabled"
-            >
-              <v-list-item-title>{{ pageLimit.text }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>
-    </div>
+    <Pagination
+      v-if="!$apollo.loading"
+      :lastPage="lastPage"
+      :currentPage="currentPage"
+      :perPage="perPage"
+      :total="total"
+      @changeLimit="changeLimit"
+      @changePage="changePage"
+    />
     <v-row no-gutters>
       <v-col
         v-for="author in authors.data"
@@ -53,17 +27,14 @@
 
 <script>
 import gql from 'graphql-tag';
+import Pagination from '@/components/app/Pagination';
 import AuthorCard from '@/components/authors/AuthorCard';
-import {
-  totalVisible,
-  pageLimits,
-  defaultPerPage,
-  firstPage,
-} from '@/constants/pagination';
+import { defaultPerPage, firstPage } from '@/constants/pagination';
 
 export default {
   name: 'Home',
   components: {
+    Pagination,
     AuthorCard,
   },
   apollo: {
@@ -103,15 +74,22 @@ export default {
       }
     `,
   },
+  watch: {
+    authors() {
+      if (this.authors.pagination.lastPage) {
+        this.lastPage = this.authors.pagination.lastPage;
+        this.total = this.authors.pagination.total;
+      }
+    },
+  },
   data() {
     return {
       lastPage: null,
+      total: 0,
       authors: {
         data: [],
         pagination: {},
       },
-      pageLimits,
-      totalVisible,
       perPage: defaultPerPage,
       currentPage: firstPage,
     };
@@ -119,6 +97,9 @@ export default {
   methods: {
     changeLimit(limit) {
       this.perPage = limit;
+    },
+    changePage(pageNumber) {
+      this.currentPage = pageNumber;
     },
     selectAuthor(id) {
       this.$router.push({ name: 'Author', params: { id } });

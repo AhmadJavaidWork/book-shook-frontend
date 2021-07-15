@@ -3,7 +3,7 @@
     outlined
     tile
     elevation="5"
-    class="author-card"
+    class="author-card mx-auto"
     @click="$emit('click')"
   >
     <v-img

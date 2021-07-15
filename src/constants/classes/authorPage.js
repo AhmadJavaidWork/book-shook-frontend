@@ -22,17 +22,3 @@ export const paginationOuterClasses = `d-flex
                                        justify-md-end
                                        justify-lg-end
                                        justify-xl-end`;
-
-export const paginationInnerClasses = `d-flex
-                                       justify-center
-                                       justify-sm-center
-                                       justify-md-end
-                                       justify-lg-end
-                                       justify-xl-end`;
-
-export const paginationPerPageClasses = `d-flex
-                                         justify-center
-                                         justify-sm-end
-                                         justify-md-start
-                                         justify-lg-start
-                                         justify-xl-start`;
